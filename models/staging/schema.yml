@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: stg_members
+    columns:
+      - name: member_id
+        data_tests: [unique, not_null]
+
+  - name: stg_sessions
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [member_id, session_date]
+    columns:
+      - name: member_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_members')
+                field: member_id
+      - name: entry_source
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["app_open", "push", "web", "email_link"]
+
+  - name: stg_winback_assignments
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [member_id, assigned_on]
+    columns:
+      - name: variant
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["email", "holdout"]
