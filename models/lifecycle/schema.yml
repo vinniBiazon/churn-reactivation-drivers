@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: lifecycle_events
+    columns:
+      - name: event_name
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["joined", "churned", "reactivated"]
+  - name: member_status
+    columns:
+      - name: member_id
+        data_tests: [unique]
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["active", "near_churn", "churned"]
+  - name: retention_heatmap
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [cohort_kind, cohort_month, months_since]
