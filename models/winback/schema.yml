@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: winback_outcomes
+    data_tests:
+      - unique_combination:
+          arguments:
+            columns: [member_id, assigned_on]
+    columns:
+      - name: variant
+        data_tests: [not_null]
