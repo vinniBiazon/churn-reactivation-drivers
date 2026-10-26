@@ -1,0 +1,27 @@
+name: churn_readouts
+version: "1.0.0"
+config-version: 2
+profile: churn_readouts
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  churn_readouts:
+    staging:
+      +materialized: view
+    lifecycle:
+      +materialized: table
+    winback:
+      +materialized: table
+
+# The definitions live here, in one place
+vars:
+  as_of: "2026-10-25"      # last day of data
+  churn_days: 90           # no session for this many days = churned
+  near_churn_days: 60      # no session for this many days = at risk (the win-back email goes out here)
+  rescue_window_days: 30   # a return within this many days of the email counts as a rescue
+  heatmap_months: 12       # months after joining or returning shown in the retention heatmap

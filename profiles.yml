@@ -1,0 +1,7 @@
+churn_readouts:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: churn.duckdb
+      threads: 4
